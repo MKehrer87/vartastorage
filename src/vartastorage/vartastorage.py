@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Tuple
 
 from vartastorage.cgi_client import CgiClient
 from vartastorage.cgi_data import (
@@ -48,20 +49,20 @@ class BaseData(ModbusData):
 @dataclass
 class EmsData:
     # /cgi/ems_datajs data
-    wr_data: WrData | None = None
-    emeter_data: EMeterData | None = None
-    ens_data: EnsData | None = None
-    charger_data: ChargerData | None = None
-    batt_data: BattData | None = None
+    wr_data: WrData = None
+    emeter_data: EMeterData = None
+    ens_data: EnsData = None
+    charger_data: ChargerData = None
+    batt_data: BattData = None
 
 
 @dataclass
 class VartaStorageData:
     modbus_data: ModbusData
-    info_data: InfoData | None = None
-    service_data: ServiceData | None = None
-    ems_data: EmsData | None = None
-    energy_data: EnergyData | None = None
+    info_data: InfoData = None
+    service_data: ServiceData = None
+    ems_data: EmsData = None
+    energy_data: EnergyData = None
 
 
 class VartaStorage:
@@ -144,6 +145,7 @@ class VartaStorage:
 
         if "ens" in ems:
             out.ens_data = EnsData.from_dict(ems["ens"])
+            out.batt_data = BattData.from_dict(ems["charger"][0])
 
         # TODO: add more if necessary
 
@@ -167,7 +169,7 @@ class VartaStorage:
         return states_map.get(state, "")
 
     @staticmethod
-    def _calculate_to_from_grid(grid_power: int) -> tuple[int, int]:
+    def _calculate_to_from_grid(grid_power: int) -> Tuple[int, int]:
         to_grid = 0
         from_grid = 0
 
@@ -179,7 +181,7 @@ class VartaStorage:
         return (to_grid, from_grid)
 
     @staticmethod
-    def _calculate_charge_discharge(active_power) -> tuple[int, int]:
+    def _calculate_charge_discharge(active_power) -> Tuple[int, int]:
         charge_power = 0
         discharge_power = 0
 

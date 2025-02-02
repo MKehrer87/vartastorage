@@ -2,6 +2,7 @@ import ast
 import re
 from dataclasses import dataclass, field
 from typing import Any
+from typing import Dict
 
 from requests import Response, Session
 
@@ -32,13 +33,13 @@ class CgiClient:
         out.info = self.get_info_cgi()
         return out
 
-    def get_energy_cgi(self) -> dict[str, Any]:
+    def get_energy_cgi(self) -> Dict[str, Any]:
         # get energy totals and charge load cycles from CGI
         # "EGrid_AC_DC": 0, "EGrid_DC_AC": 0, "EWr_AC_DC": 0, "EWr_DC_AC": 0,
         # "Chrg_LoadCycles": 0
         return self._get_cgi_as_dict("/cgi/energy.js")
 
-    def get_ems_cgi(self) -> dict[str, Any]:
+    def get_ems_cgi(self) -> Dict[str, Any]:
         # get ems data structure
         # usually a dict of 'wr': {...}, 'charger': [{...}], 'emeter': {...}, 'na': {}
         result: dict[str, Any] = {}
@@ -75,16 +76,16 @@ class CgiClient:
 
         return result
 
-    def get_service_cgi(self) -> dict[str, Any]:
+    def get_service_cgi(self) -> Dict[str, Any]:
         # get service and maintenance data from CGI
         # "FilterZeit": 0, "Fan": 0, "Main": 0
         return self._get_cgi_as_dict("/cgi/user_serv.js")
 
-    def get_info_cgi(self) -> dict[str, Any]:
+    def get_info_cgi(self) -> Dict[str, Any]:
         # get various informations by the cgi/info.js
         return self._get_cgi_as_dict("/cgi/info.js")
 
-    def _get_cgi_as_dict(self, path: str) -> dict[str, Any]:
+    def _get_cgi_as_dict(self, path: str) -> Dict[str, Any]:
         result = {}
         try:
             response = self._request_data(path)

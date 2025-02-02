@@ -1,7 +1,7 @@
 import time
 from dataclasses import dataclass
 
-from pymodbus.client.tcp import ModbusTcpClient
+from pymodbus.client.sync import ModbusTcpClient
 from pymodbus.constants import Endian
 from pymodbus.exceptions import ModbusException
 from pymodbus.payload import BinaryPayloadDecoder
@@ -114,7 +114,7 @@ class ModbusClient:
     def get_software_version_ems(self) -> str:
         registers = self._get_value_modbus(1000, 17)
         result = BinaryPayloadDecoder.fromRegisters(
-            registers, Endian.BIG, Endian.BIG
+            registers, Endian.Big, Endian.Big
         ).decode_string(17)
 
         return self._clean_string(result)
@@ -122,7 +122,7 @@ class ModbusClient:
     def get_software_version_ens(self) -> str:
         registers = self._get_value_modbus(1017, 17)
         result = BinaryPayloadDecoder.fromRegisters(
-            registers, Endian.BIG, Endian.BIG
+            registers, Endian.Big, Endian.Big
         ).decode_string(17)
 
         return self._clean_string(result)
@@ -130,7 +130,7 @@ class ModbusClient:
     def get_software_version_inverter(self) -> str:
         registers = self._get_value_modbus(1034, 17)
         result = BinaryPayloadDecoder.fromRegisters(
-            registers, Endian.BIG, Endian.BIG
+            registers, Endian.Big, Endian.Big
         ).decode_string(17)
 
         return self._clean_string(result)
@@ -138,7 +138,7 @@ class ModbusClient:
     def get_table_version(self) -> int:
         registers = self._get_value_modbus(1051, 1)
         result = BinaryPayloadDecoder.fromRegisters(
-            registers, Endian.BIG, Endian.LITTLE
+            registers, Endian.Big, Endian.Little
         ).decode_16bit_uint()
         return result
 
@@ -149,7 +149,7 @@ class ModbusClient:
         registers = self._get_value_modbus(1054, 10)
 
         result = BinaryPayloadDecoder.fromRegisters(
-            registers, Endian.BIG, Endian.BIG
+            registers, Endian.Big, Endian.Big
         ).decode_string(18)
 
         return self._clean_string(result)
@@ -160,7 +160,7 @@ class ModbusClient:
 
         registers = self._get_value_modbus(1064, 1)
         result = BinaryPayloadDecoder.fromRegisters(
-            registers, Endian.BIG, Endian.LITTLE
+            registers, Endian.Big, Endian.Little
         ).decode_16bit_uint()
         return result
 
@@ -173,7 +173,7 @@ class ModbusClient:
 
         registers = self._get_value_modbus(1065, 1)
         result = BinaryPayloadDecoder.fromRegisters(
-            registers, Endian.BIG, Endian.LITTLE
+            registers, Endian.Big, Endian.Little
         ).decode_16bit_uint()
         return result
 
@@ -184,7 +184,7 @@ class ModbusClient:
 
         registers = self._get_value_modbus(1066, 1)
         result = BinaryPayloadDecoder.fromRegisters(
-            registers, Endian.BIG, Endian.LITTLE
+            registers, Endian.Big, Endian.Little
         ).decode_16bit_int()
         return result
 
@@ -195,7 +195,7 @@ class ModbusClient:
 
         registers = self._get_value_modbus(1067, 1)
         result = BinaryPayloadDecoder.fromRegisters(
-            registers, Endian.BIG, Endian.LITTLE
+            registers, Endian.Big, Endian.Little
         ).decode_16bit_int()
         return result
 
@@ -205,7 +205,7 @@ class ModbusClient:
 
         registers = self._get_value_modbus(1068, 1)
         result = BinaryPayloadDecoder.fromRegisters(
-            registers, Endian.BIG, Endian.LITTLE
+            registers, Endian.Big, Endian.Little
         ).decode_16bit_uint()
         return result
 
@@ -217,11 +217,11 @@ class ModbusClient:
         reg_high = self._get_value_modbus(1070, 1)
 
         res_low = BinaryPayloadDecoder.fromRegisters(
-            reg_low, Endian.BIG, Endian.LITTLE
+            reg_low, Endian.Big, Endian.Little
         ).decode_16bit_uint()
 
         res_high = BinaryPayloadDecoder.fromRegisters(
-            reg_high, Endian.BIG, Endian.LITTLE
+            reg_high, Endian.Big, Endian.Little
         ).decode_16bit_uint()
 
         res = ((res_high << 16) | (res_low & 0xFFFF)) / 1000
@@ -233,7 +233,7 @@ class ModbusClient:
 
         registers = self._get_value_modbus(1071, 1)
         result = BinaryPayloadDecoder.fromRegisters(
-            registers, Endian.BIG, Endian.LITTLE
+            registers, Endian.Big, Endian.Little
         ).decode_16bit_uint()
         # Installed capacity has to be multiplied by 10
         return result * 10
@@ -241,7 +241,7 @@ class ModbusClient:
     def get_error_code(self) -> int:
         registers = self._get_value_modbus(1072, 1)
         result = BinaryPayloadDecoder.fromRegisters(
-            registers, Endian.BIG, Endian.LITTLE
+            registers, Endian.Big, Endian.Little
         ).decode_16bit_uint()
         return result
 
@@ -251,7 +251,7 @@ class ModbusClient:
 
         registers = self._get_value_modbus(1078, 1)
         result = BinaryPayloadDecoder.fromRegisters(
-            registers, Endian.BIG, Endian.LITTLE
+            registers, Endian.Big, Endian.Little
         ).decode_16bit_int()
         return result
 
