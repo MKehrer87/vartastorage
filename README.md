@@ -6,7 +6,7 @@ Should work for other VARTA element, pulse, pulse neo, link and flex storage dev
 
 ## Setup
 
-pip3 install vartastorage
+pip3 install vartastorage 
 
 ## Usage
 
